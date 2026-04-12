@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dhola-Maru — A Rajasthani Love Story</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#1a0800;font-family:'Crimson Text',Georgia,serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px}
+  h1{font-family:'Cinzel',serif;color:#FFD700;font-size:2.2rem;text-align:center;letter-spacing:0.06em;margin-bottom:4px;text-shadow:0 2px 8px #000}
+  .subtitle{color:#C8864A;font-style:italic;font-size:1rem;text-align:center;margin-bottom:18px}
+  .comic-container{width:100%;max-width:820px;position:relative}
+  .panel-wrap{position:relative;border:4px solid #7B2D00;border-radius:4px;overflow:hidden;background:#1a0800;min-height:420px;display:flex;align-items:stretch}
+  .panel{display:none;width:100%;flex-direction:column;animation:fadeIn 0.4s ease}
+  .panel.active{display:flex}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .panel svg{width:100%;display:block;flex-shrink:0}
+  .panel-caption{background:rgba(10,3,0,0.92);color:#F5DEB3;font-size:1rem;line-height:1.65;padding:14px 20px;font-style:italic;border-top:2px solid #7B2D00}
+  .panel-caption .speaker{font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.1em;color:#FFD700;font-style:normal;display:block;margin-bottom:4px}
+  .chapter-label{background:#7B2D00;color:#FFE0A0;font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.14em;padding:6px 16px;text-align:center}
+  /* controls */
+  .controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+  .btn{background:rgba(123,45,0,0.85);color:#FFE0A0;border:1.5px solid #C8864A;border-radius:6px;padding:8px 20px;font-family:'Cinzel',serif;font-size:0.78rem;cursor:pointer;letter-spacing:0.08em;transition:background 0.2s,transform 0.1s}
+  .btn:hover{background:#7B2D00;transform:scale(1.04)}
+  .btn:active{transform:scale(0.97)}
+  .btn:disabled{opacity:0.35;cursor:default;transform:none}
+  .btn.play-btn{background:#5A1A00;min-width:80px}
+  .btn.play-btn.playing{background:#3A5A00;border-color:#8FC840}
+  .progress-bar{width:100%;max-width:820px;height:6px;background:#3A1500;border-radius:3px;margin-top:10px;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,#C8864A,#FFD700);border-radius:3px;transition:width 0.4s ease}
+  .panel-counter{color:#C8864A;font-family:'Cinzel',serif;font-size:0.78rem;text-align:center;margin-top:6px;letter-spacing:0.08em}
+  .dot-nav{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;flex-wrap:wrap}
+  .dot{width:10px;height:10px;border-radius:50%;background:#3A1500;border:1.5px solid #7B2D00;cursor:pointer;transition:background 0.2s,transform 0.2s}
+  .dot.active{background:#FFD700;border-color:#FFD700;transform:scale(1.3)}
+  .dot:hover{background:#C8864A}
+</style>
+</head>
+<body>
+
+<h1>Dhola &#x2665; Maru</h1>
+<p class="subtitle">A Tale of Eternal Love from the Sands of Marwar</p>
+
+<div class="comic-container">
+
+  <!-- PANEL 1 -->
+  <div class="panel active" id="panel-1">
+    <div class="chapter-label">Chapter I &mdash; The Childhood Betrothal</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F4C97A"/><stop offset="100%" stop-color="#E8843A"/></linearGradient>
+        <linearGradient id="sand1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4944A"/><stop offset="100%" stop-color="#9C5A1D"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#sky1)"/>
+      <ellipse cx="410" cy="380" rx="500" ry="100" fill="url(#sand1)"/>
+      <path d="M0,220 Q410,165 820,220 L820,340 L0,340 Z" fill="#A0521A" opacity="0.7"/>
+      <!-- Left palace -->
+      <rect x="30" y="60" width="160" height="180" fill="#8B3A0F" opacity="0.9"/>
+      <rect x="45" y="42" width="34" height="28" fill="#8B3A0F"/>
+      <rect x="90" y="36" width="34" height="34" fill="#8B3A0F"/>
+      <rect x="138" y="44" width="30" height="26" fill="#8B3A0F"/>
+      <polygon points="50,42 64,24 78,42" fill="#C06010"/>
+      <polygon points="93,36 107,18 121,36" fill="#C06010"/>
+      <polygon points="140,44 154,26 168,44" fill="#C06010"/>
+      <!-- Right palace -->
+      <rect x="630" y="55" width="170" height="190" fill="#7B2D00" opacity="0.9"/>
+      <rect x="645" y="36" width="32" height="30" fill="#7B2D00"/>
+      <rect x="690" y="30" width="36" height="36" fill="#7B2D00"/>
+      <rect x="740" y="38" width="30" height="30" fill="#7B2D00"/>
+      <polygon points="648,36 661,18 674,36" fill="#B05010"/>
+      <polygon points="692,30 706,12 720,30" fill="#B05010"/>
+      <polygon points="742,38 755,20 768,38" fill="#B05010"/>
+      <!-- Sun -->
+      <circle cx="410" cy="70" r="42" fill="#FFE066" opacity="0.95"/>
+      <circle cx="410" cy="70" r="30" fill="#FFC900"/>
+      <!-- Child Dhola -->
+      <circle cx="190" cy="195" r="18" fill="#F5C28A"/>
+      <rect x="180" y="213" width="20" height="34" fill="#D4441A" rx="3"/>
+      <path d="M178,187 Q190,172 202,187" fill="none" stroke="#FF8800" stroke-width="8"/>
+      <!-- Child Maru -->
+      <circle cx="630" cy="192" r="18" fill="#F5C28A"/>
+      <rect x="619" y="210" width="22" height="34" fill="#9B2D8A" rx="3"/>
+      <circle cx="630" cy="188" r="2.5" fill="#C00"/>
+      <!-- Fate line -->
+      <line x1="215" y1="195" x2="608" y2="192" stroke="#FFD700" stroke-width="2" stroke-dasharray="10,7" opacity="0.9"/>
+      <text x="410" y="182" text-anchor="middle" fill="#FFD700" font-size="14" font-family="Georgia" opacity="0.85">&#x2605; destined &#x2605;</text>
+      <!-- Border -->
+      <rect x="0" y="0" width="820" height="9" fill="#7B2D00"/>
+      <rect x="0" y="331" width="820" height="9" fill="#7B2D00"/>
+    </svg>
+    <div class="panel-caption">
+      In the golden age of Rajputana, infant Dhola of Narvar was betrothed to baby Maru of Pugal. Two kingdoms, two children — bound by a sacred promise they were too young to understand. A golden thread of fate was tied between them across the desert sands.
+    </div>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="panel" id="panel-2">
+    <div class="chapter-label">Chapter II &mdash; Time Passes. Dhola Forgets.</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hall2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C4854A"/><stop offset="100%" stop-color="#7B2D00"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#hall2)"/>
+      <!-- Palace arches -->
+      <path d="M0,50 Q100,10 200,50 L200,340 L0,340 Z" fill="#8B3A0F" opacity="0.45"/>
+      <path d="M180,50 Q280,10 380,50 L380,340 L180,340 Z" fill="#7B2D00" opacity="0.45"/>
+      <path d="M360,50 Q460,10 560,50 L560,340 L360,340 Z" fill="#6B1A00" opacity="0.45"/>
+      <path d="M540,50 Q640,10 740,50 L740,340 L540,340 Z" fill="#5A1000" opacity="0.45"/>
+      <!-- Dhola grown -->
+      <circle cx="320" cy="165" r="26" fill="#F5C28A"/>
+      <rect x="304" y="191" width="32" height="50" fill="#1A5A9C" rx="4"/>
+      <path d="M298,156 Q320,133 342,156" fill="none" stroke="#D4441A" stroke-width="12"/>
+      <rect x="315" y="133" width="10" height="28" fill="#D4441A"/>
+      <!-- Malwani — new wife, happy, innocent -->
+      <circle cx="430" cy="168" r="24" fill="#F5C28A"/>
+      <rect x="416" y="192" width="28" height="46" fill="#9B2D8A" rx="4"/>
+      <circle cx="430" cy="163" r="3" fill="#C00"/>
+      <!-- Ornaments on Malwani -->
+      <circle cx="415" cy="175" r="3" fill="#FFD700"/>
+      <circle cx="445" cy="175" r="3" fill="#FFD700"/>
+      <!-- Heart between them -->
+      <text x="378" y="175" text-anchor="middle" font-size="28" fill="#FF6B6B">&#x2665;</text>
+      <!-- Dhola arm around Malwani -->
+      <path d="M342,198 Q380,190 408,193" fill="none" stroke="#F5C28A" stroke-width="10" stroke-linecap="round"/>
+      <!-- small faded Maru in background — forgotten -->
+      <circle cx="680" cy="130" r="12" fill="#F5C28A" opacity="0.22"/>
+      <rect x="672" y="142" width="16" height="24" fill="#9B2D8A" rx="2" opacity="0.18"/>
+      <text x="680" y="110" text-anchor="middle" font-size="10" fill="#FFD700" opacity="0.3" font-family="Georgia">Maru?</text>
+      <rect x="0" y="0" width="820" height="9" fill="#4A1000"/>
+      <rect x="0" y="331" width="820" height="9" fill="#4A1000"/>
+    </svg>
+    <div class="panel-caption">
+      Years flew by. Dhola grew into a young man in Narvar — and was married to <strong style="color:#FFD700">Malwani</strong>, a beautiful woman who loved him deeply. She knew nothing of any prior betrothal. She was innocent. She married in good faith — and fell truly in love. The faint ghost of Maru drifted into oblivion, forgotten by all in Narvar.
+    </div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="panel" id="panel-3">
+    <div class="chapter-label">Chapter III &mdash; Malwani&apos;s Heartbreak (No Villain Here)</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="eve3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3A1040"/><stop offset="100%" stop-color="#5A1A00"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#eve3)"/>
+      <!-- Stars -->
+      <circle cx="60" cy="30" r="2" fill="#FFF8CC"/>
+      <circle cx="140" cy="18" r="1.5" fill="#FFF8CC"/>
+      <circle cx="240" cy="28" r="2" fill="#FFF8CC"/>
+      <circle cx="400" cy="15" r="1.5" fill="#FFF8CC"/>
+      <circle cx="550" cy="25" r="2" fill="#FFF8CC"/>
+      <circle cx="700" cy="18" r="1.5" fill="#FFF8CC"/>
+      <circle cx="780" cy="35" r="2" fill="#FFF8CC"/>
+      <!-- Moon -->
+      <path d="M720,25 Q756,50 728,85 Q782,66 774,28 Z" fill="#FFFAE0"/>
+      <!-- Malwani listening to bard with fear/sadness -->
+      <!-- Bard figure left -->
+      <circle cx="180" cy="195" r="20" fill="#F5C28A"/>
+      <rect x="168" y="215" width="24" height="42" fill="#3A7A2A" rx="3"/>
+      <!-- dhol drum -->
+      <ellipse cx="163" cy="222" rx="16" ry="9" fill="#8B4513" stroke="#5A2A00" stroke-width="1.5"/>
+      <rect x="147" y="222" width="32" height="22" fill="#8B4513" stroke="#5A2A00" stroke-width="1.5" rx="2"/>
+      <ellipse cx="163" cy="244" rx="16" ry="9" fill="#8B4513" stroke="#5A2A00" stroke-width="1.5"/>
+      <line x1="153" y1="215" x2="140" y2="203" stroke="#5A2A00" stroke-width="2.5"/>
+      <!-- musical notes -->
+      <text x="220" y="180" font-size="22" fill="#FFD700" opacity="0.8">&#9834;</text>
+      <text x="255" y="165" font-size="18" fill="#FFD700" opacity="0.7">&#9835;</text>
+      <!-- Malwani listening, distressed -->
+      <circle cx="540" cy="185" r="24" fill="#F5C28A"/>
+      <rect x="525" y="209" width="30" height="48" fill="#9B2D8A" rx="4"/>
+      <circle cx="540" cy="180" r="3" fill="#C00"/>
+      <!-- Malwani's thought bubble — she thinks: is my husband leaving? -->
+      <ellipse cx="620" cy="110" rx="85" ry="50" fill="#FFF8EC" opacity="0.92" stroke="#9B2D8A" stroke-width="2"/>
+      <circle cx="575" cy="148" r="7" fill="#FFF8EC" opacity="0.8" stroke="#9B2D8A" stroke-width="1.5"/>
+      <circle cx="563" cy="160" r="5" fill="#FFF8EC" opacity="0.8" stroke="#9B2D8A" stroke-width="1.5"/>
+      <text x="620" y="104" text-anchor="middle" font-size="11" fill="#7B2D00" font-family="Georgia">Will he leave me?</text>
+      <text x="620" y="120" text-anchor="middle" font-size="11" fill="#7B2D00" font-family="Georgia">Did I do something wrong?</text>
+      <text x="620" y="136" text-anchor="middle" font-size="11" fill="#9B2D8A" font-family="Georgia" font-style="italic">I love him...</text>
+      <!-- tear drop -->
+      <path d="M532,196 Q529,204 532,212" fill="none" stroke="#6AF" stroke-width="2"/>
+      <path d="M548,196 Q550,204 548,212" fill="none" stroke="#6AF" stroke-width="2"/>
+      <rect x="0" y="0" width="820" height="9" fill="#200820"/>
+      <rect x="0" y="331" width="820" height="9" fill="#200820"/>
+    </svg>
+    <div class="panel-caption">
+      When the bards arrived singing of Maru, <strong style="color:#FFD700">Malwani panicked</strong> — not out of cruelty, but out of fear. She had done nothing wrong. She knew nothing of the old betrothal. From her eyes, her husband of years was being stolen away by strangers and their songs. She tried to stop the bards — and who could truly blame her?
+    </div>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="panel" id="panel-4">
+    <div class="chapter-label">Chapter IV &mdash; Maru Waits Alone in Pugal</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="night4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A0E2A"/><stop offset="100%" stop-color="#1A2060"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#night4)"/>
+      <!-- Stars scattered -->
+      <circle cx="50" cy="25" r="2" fill="#EEF8FF"/>
+      <circle cx="130" cy="15" r="1.5" fill="#EEF8FF"/>
+      <circle cx="220" cy="30" r="2.5" fill="#EEF8FF"/>
+      <circle cx="350" cy="12" r="1.5" fill="#EEF8FF"/>
+      <circle cx="500" cy="22" r="2" fill="#EEF8FF"/>
+      <circle cx="650" cy="18" r="1.5" fill="#EEF8FF"/>
+      <circle cx="760" cy="30" r="2" fill="#EEF8FF"/>
+      <circle cx="100" cy="50" r="1" fill="#EEF8FF"/>
+      <circle cx="440" cy="42" r="1" fill="#EEF8FF"/>
+      <circle cx="700" cy="45" r="1.5" fill="#EEF8FF"/>
+      <!-- Moon -->
+      <circle cx="680" cy="60" r="36" fill="#FFFAE0"/>
+      <circle cx="695" cy="52" r="30" fill="url(#night4)"/>
+      <!-- Pugal palace -->
+      <rect x="230" y="60" width="360" height="230" fill="#6B2A00" opacity="0.8"/>
+      <!-- Arches in palace -->
+      <path d="M270,60 Q310,20 350,60 L350,290 L270,290 Z" fill="#7B3000" opacity="0.5"/>
+      <path d="M350,60 Q390,20 430,60 L430,290 L350,290 Z" fill="#6B2000" opacity="0.5"/>
+      <path d="M430,60 Q470,20 510,60 L510,290 L430,290 Z" fill="#7B3000" opacity="0.5"/>
+      <!-- Turrets -->
+      <rect x="240" y="40" width="30" height="28" fill="#6B2A00"/>
+      <rect x="540" y="40" width="30" height="28" fill="#6B2A00"/>
+      <polygon points="244,40 255,20 266,40" fill="#9B4010"/>
+      <polygon points="543,40 554,20 565,40" fill="#9B4010"/>
+      <!-- window glow -->
+      <rect x="368" y="110" width="84" height="100" fill="#FF9933" opacity="0.25" rx="40"/>
+      <!-- Maru at window -->
+      <circle cx="410" cy="155" r="22" fill="#F5C28A"/>
+      <rect x="396" y="177" width="28" height="50" fill="#9B2D8A" rx="4"/>
+      <circle cx="410" cy="150" r="3" fill="#C00"/>
+      <!-- Dupatta -->
+      <path d="M396,168 Q370,160 340,165" fill="none" stroke="#CC88CC" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+      <!-- tears -->
+      <path d="M402,166 Q400,174 402,183" fill="none" stroke="#88CCFF" stroke-width="2"/>
+      <path d="M418,166 Q420,174 418,183" fill="none" stroke="#88CCFF" stroke-width="2"/>
+      <!-- longing text -->
+      <text x="410" y="90" text-anchor="middle" font-size="13" fill="#FFD700" font-family="Georgia" font-style="italic" opacity="0.7">Where is my Dhola?</text>
+      <rect x="0" y="0" width="820" height="9" fill="#080A1E"/>
+      <rect x="0" y="331" width="820" height="9" fill="#080A1E"/>
+    </svg>
+    <div class="panel-caption">
+      Far across the Thar, in the palace of Pugal, <strong style="color:#FFD700">Maru</strong> had grown into a young woman — and she had never forgotten. Night after night she stood at her window watching the desert stars, wondering if the boy she was promised to even knew she existed. Her wait stretched into years of quiet heartbreak.
+    </div>
+  </div>
+
+  <!-- PANEL 5 -->
+  <div class="panel" id="panel-5">
+    <div class="chapter-label">Chapter V &mdash; The Bards Cross the Desert</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="dawn5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFD59E"/><stop offset="100%" stop-color="#E8843A"/></linearGradient>
+        <linearGradient id="sand5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C4793A"/><stop offset="100%" stop-color="#7B3A00"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#dawn5)"/>
+      <path d="M0,220 Q410,168 820,220 L820,340 L0,340 Z" fill="url(#sand5)"/>
+      <!-- Dunes -->
+      <ellipse cx="150" cy="310" rx="180" ry="50" fill="#9C4A10" opacity="0.5"/>
+      <ellipse cx="680" cy="305" rx="200" ry="45" fill="#8B3A00" opacity="0.5"/>
+      <!-- Bard on camel crossing desert -->
+      <!-- Camel -->
+      <ellipse cx="360" cy="220" rx="70" ry="28" fill="#C8864A"/>
+      <path d="M370,202 Q388,174 398,160" fill="none" stroke="#C8864A" stroke-width="18" stroke-linecap="round"/>
+      <ellipse cx="404" cy="153" rx="17" ry="13" fill="#C8864A"/>
+      <circle cx="412" cy="148" r="3" fill="#2A0E00"/>
+      <path d="M310,196 Q338,172 366,196" fill="#B07030"/>
+      <rect x="308" y="240" width="10" height="28" fill="#A05820" rx="3"/>
+      <rect x="326" y="240" width="10" height="28" fill="#A05820" rx="3"/>
+      <rect x="376" y="240" width="10" height="28" fill="#A05820" rx="3"/>
+      <rect x="394" y="240" width="10" height="28" fill="#A05820" rx="3"/>
+      <!-- Bard on camel -->
+      <circle cx="340" cy="188" r="16" fill="#F5C28A"/>
+      <rect x="328" y="204" width="22" height="32" fill="#3A7A2A" rx="3"/>
+      <!-- turban -->
+      <path d="M326,182 Q340,168 354,182" fill="none" stroke="#FF8800" stroke-width="7"/>
+      <!-- Dhol drum on camel side -->
+      <ellipse cx="310" cy="218" rx="13" ry="8" fill="#8B4513" stroke="#5A2A00" stroke-width="1.5"/>
+      <rect x="297" y="218" width="26" height="18" fill="#8B4513" stroke="#5A2A00" stroke-width="1.5" rx="2"/>
+      <ellipse cx="310" cy="236" rx="13" ry="8" fill="#8B4513" stroke="#5A2A00" stroke-width="1.5"/>
+      <!-- Music notes trail -->
+      <text x="430" y="170" font-size="22" fill="#7B2D00" opacity="0.8">&#9834;</text>
+      <text x="470" y="152" font-size="18" fill="#7B2D00" opacity="0.7">&#9835;</text>
+      <text x="510" y="168" font-size="15" fill="#7B2D00" opacity="0.6">&#9834;</text>
+      <text x="550" y="148" font-size="20" fill="#7B2D00" opacity="0.5">&#9835;</text>
+      <!-- Message scroll flying -->
+      <rect x="600" y="100" width="130" height="80" fill="#FFF8E1" rx="4" stroke="#8B4513" stroke-width="2"/>
+      <text x="665" y="124" text-anchor="middle" font-size="10" fill="#7B2D00" font-family="Georgia">Maru of Pugal</text>
+      <text x="665" y="138" text-anchor="middle" font-size="10" fill="#7B2D00" font-family="Georgia">weeps for Dhola.</text>
+      <text x="665" y="152" text-anchor="middle" font-size="10" fill="#7B2D00" font-family="Georgia">Come, O prince...</text>
+      <text x="665" y="166" text-anchor="middle" font-size="10" fill="#9B4020" font-family="Georgia" font-style="italic">— the dholi bard</text>
+      <!-- info box about bards -->
+      <rect x="30" y="20" width="230" height="70" fill="#1A0800" opacity="0.75" rx="4"/>
+      <text x="42" y="42" font-size="10.5" fill="#FFD700" font-family="Georgia" font-weight="bold">Who are Bards (Dholis)?</text>
+      <text x="42" y="57" font-size="9.5" fill="#F5DEB3" font-family="Georgia">Travelling poet-singers who carried</text>
+      <text x="42" y="70" font-size="9.5" fill="#F5DEB3" font-family="Georgia">news, songs &amp; messages across</text>
+      <text x="42" y="83" font-size="9.5" fill="#F5DEB3" font-family="Georgia">the desert — the WhatsApp of 1200 CE.</text>
+      <rect x="0" y="0" width="820" height="9" fill="#7B2D00"/>
+      <rect x="0" y="331" width="820" height="9" fill="#7B2D00"/>
+    </svg>
+    <div class="panel-caption">
+      Maru finally sent word through <strong style="color:#FFD700">Dholi bards</strong> — the wandering poet-musicians of Rajasthan. These were hereditary singers who served as the news-carriers, messengers, and memory-keepers of the desert. They crossed hundreds of miles of burning sand on camelback, carrying Maru's longing in their songs toward Narvar.
+    </div>
+  </div>
+
+  <!-- PANEL 6 -->
+  <div class="panel" id="panel-6">
+    <div class="chapter-label">Chapter VI &mdash; The Song Breaks Through</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="golden6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFF3CC"/><stop offset="100%" stop-color="#FF9933"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#golden6)"/>
+      <!-- Palace room -->
+      <rect x="60" y="40" width="700" height="270" fill="#8B3A0F" opacity="0.18" rx="6"/>
+      <!-- Dhola standing, awakened -->
+      <circle cx="300" cy="170" r="28" fill="#F5C28A"/>
+      <rect x="283" y="198" width="34" height="58" fill="#1A5A9C" rx="4"/>
+      <path d="M278,160 Q300,136 322,160" fill="none" stroke="#D4441A" stroke-width="13"/>
+      <rect x="296" y="136" width="10" height="28" fill="#D4441A"/>
+      <!-- Arms wide open — realisation -->
+      <rect x="248" y="190" width="12" height="40" fill="#F5C28A" rx="4" transform="rotate(-38 248 190)"/>
+      <rect x="340" y="190" width="12" height="40" fill="#F5C28A" rx="4" transform="rotate(38 352 190)"/>
+      <!-- Flash of memory — Maru's face glowing -->
+      <circle cx="300" cy="170" r="72" fill="#FFD70018"/>
+      <circle cx="300" cy="170" r="50" fill="#FFD70012"/>
+      <!-- Memory image of Maru floating above -->
+      <circle cx="300" cy="80" r="26" fill="#F5C28A" opacity="0.85"/>
+      <rect x="287" y="106" width="26" height="36" fill="#9B2D8A" rx="3" opacity="0.85"/>
+      <circle cx="300" cy="75" r="3" fill="#C00" opacity="0.85"/>
+      <path d="M287,92 Q270,84 254,88" fill="none" stroke="#CC88CC" stroke-width="4" opacity="0.7" stroke-linecap="round"/>
+      <text x="300" y="55" text-anchor="middle" font-size="11" fill="#FFD700" font-family="Georgia" font-style="italic">Maru... I remember!</text>
+      <!-- flash lines -->
+      <line x1="300" y1="30" x2="300" y2="50" stroke="#FFD700" stroke-width="3"/>
+      <line x1="348" y1="42" x2="336" y2="56" stroke="#FFD700" stroke-width="2.5"/>
+      <line x1="252" y1="42" x2="264" y2="56" stroke="#FFD700" stroke-width="2.5"/>
+      <line x1="368" y1="80" x2="354" y2="86" stroke="#FFD700" stroke-width="2"/>
+      <line x1="232" y1="80" x2="246" y2="86" stroke="#FFD700" stroke-width="2"/>
+      <!-- Bard in corner singing -->
+      <circle cx="600" cy="220" r="18" fill="#F5C28A"/>
+      <rect x="589" y="238" width="22" height="38" fill="#3A7A2A" rx="3"/>
+      <path d="M587,212 Q600,198 613,212" fill="none" stroke="#FF8800" stroke-width="7"/>
+      <!-- notes from bard -->
+      <text x="630" y="200" font-size="20" fill="#8B4513" opacity="0.8">&#9834;</text>
+      <text x="655" y="182" font-size="16" fill="#8B4513" opacity="0.7">&#9835;</text>
+      <rect x="0" y="0" width="820" height="9" fill="#7B2D00"/>
+      <rect x="0" y="331" width="820" height="9" fill="#7B2D00"/>
+    </svg>
+    <div class="panel-caption">
+      One clever bard found a private moment when Malwani was absent — and sang with every detail of Maru's childhood. The song was so vivid, so true, so full of things only a real betrothed would know — that it shattered every wall Dhola had built around that buried memory. <strong style="color:#FFD700">It all came flooding back.</strong> He remembered. He wept. He made his decision.
+    </div>
+  </div>
+
+  <!-- PANEL 7 -->
+  <div class="panel" id="panel-7">
+    <div class="chapter-label">Chapter VII &mdash; Dhola Rides for Pugal</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ride7" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFD59E"/><stop offset="100%" stop-color="#C46020"/></linearGradient>
+        <linearGradient id="snd7" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C4793A"/><stop offset="100%" stop-color="#7B3A00"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#ride7)"/>
+      <path d="M0,228 Q410,180 820,228 L820,340 L0,340 Z" fill="url(#snd7)"/>
+      <!-- Large fast camel -->
+      <ellipse cx="430" cy="218" rx="110" ry="38" fill="#C8864A"/>
+      <path d="M440,192 Q468,155 482,135" fill="none" stroke="#C8864A" stroke-width="26" stroke-linecap="round"/>
+      <ellipse cx="490" cy="127" rx="24" ry="18" fill="#C8864A"/>
+      <circle cx="502" cy="122" r="4" fill="#2A0E00"/>
+      <path d="M355,192 Q392,152 432,192" fill="#B07030"/>
+      <path d="M418,192 Q456,152 495,192" fill="#A86028"/>
+      <!-- decorative saddle cloth -->
+      <rect x="340" y="198" width="175" height="40" fill="#CC2200" rx="5" opacity="0.75"/>
+      <rect x="340" y="198" width="175" height="5" fill="#FFD700" rx="2"/>
+      <rect x="340" y="233" width="175" height="5" fill="#FFD700" rx="2"/>
+      <!-- bells -->
+      <circle cx="355" cy="245" r="8" fill="#FFD700" stroke="#AA8000" stroke-width="1.5"/>
+      <circle cx="500" cy="245" r="8" fill="#FFD700" stroke="#AA8000" stroke-width="1.5"/>
+      <!-- legs in gallop -->
+      <rect x="355" y="248" width="12" height="30" fill="#9A5218" rx="4" transform="rotate(-15 355 248)"/>
+      <rect x="380" y="252" width="12" height="30" fill="#9A5218" rx="4" transform="rotate(10 380 252)"/>
+      <rect x="448" y="252" width="12" height="30" fill="#9A5218" rx="4" transform="rotate(-8 448 252)"/>
+      <rect x="474" y="248" width="12" height="30" fill="#9A5218" rx="4" transform="rotate(14 474 248)"/>
+      <!-- Dhola riding with urgency -->
+      <circle cx="400" cy="173" r="22" fill="#F5C28A"/>
+      <rect x="385" y="195" width="30" height="45" fill="#1A5A9C" rx="4"/>
+      <path d="M381,164 Q400,144 419,164" fill="none" stroke="#D4441A" stroke-width="12"/>
+      <rect x="396" y="144" width="10" height="24" fill="#D4441A"/>
+      <!-- speed dust trails -->
+      <ellipse cx="200" cy="240" rx="60" ry="15" fill="#C8864A" opacity="0.35"/>
+      <ellipse cx="140" cy="250" rx="45" ry="10" fill="#C8864A" opacity="0.25"/>
+      <ellipse cx="80" cy="258" rx="35" ry="8" fill="#C8864A" opacity="0.15"/>
+      <!-- speed lines -->
+      <line x1="260" y1="200" x2="310" y2="202" stroke="#FFD700" stroke-width="2.5" stroke-dasharray="8,5" opacity="0.7"/>
+      <line x1="240" y1="218" x2="300" y2="218" stroke="#FFD700" stroke-width="2" stroke-dasharray="8,5" opacity="0.6"/>
+      <line x1="250" y1="235" x2="305" y2="235" stroke="#FFD700" stroke-width="2" stroke-dasharray="8,5" opacity="0.5"/>
+      <!-- direction arrow -->
+      <text x="640" y="90" font-size="18" fill="#7B2D00" font-family="Georgia" font-style="italic">&#x2192; Pugal</text>
+      <rect x="0" y="0" width="820" height="9" fill="#7B2D00"/>
+      <rect x="0" y="331" width="820" height="9" fill="#7B2D00"/>
+    </svg>
+    <div class="panel-caption">
+      Dhola mounted his swiftest camel and rode hard into the burning Thar — no stopping, no turning back. The bells on the camel's harness rang with every stride. Behind him in Narvar, <strong style="color:#FFD700">Malwani</strong> stood watching the dust cloud disappear — understanding at last, and carrying a grief she had done nothing to deserve.
+    </div>
+  </div>
+
+  <!-- PANEL 8 -->
+  <div class="panel" id="panel-8">
+    <div class="chapter-label">Chapter VIII &mdash; The Joyful Reunion</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="glry8" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFE566"/><stop offset="55%" stop-color="#FF9933"/><stop offset="100%" stop-color="#CC4400"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#glry8)"/>
+      <!-- Pugal gates open -->
+      <rect x="220" y="40" width="60" height="200" fill="#7B2D00" opacity="0.7"/>
+      <rect x="540" y="40" width="60" height="200" fill="#7B2D00" opacity="0.7"/>
+      <path d="M220,40 Q410,-10 600,40" fill="#8B3A0F" opacity="0.6"/>
+      <!-- Grand camel -->
+      <ellipse cx="410" cy="218" rx="125" ry="44" fill="#C8864A"/>
+      <path d="M418,192 Q450,150 466,128" fill="none" stroke="#C8864A" stroke-width="28" stroke-linecap="round"/>
+      <ellipse cx="474" cy="120" rx="26" ry="20" fill="#C8864A"/>
+      <circle cx="487" cy="114" r="4.5" fill="#2A0E00"/>
+      <path d="M320,196 Q365,150 408,196" fill="#B07030"/>
+      <path d="M398,196 Q443,150 488,196" fill="#A86028"/>
+      <!-- grand red cloth -->
+      <rect x="310" y="200" width="195" height="46" fill="#CC2200" rx="6" opacity="0.8"/>
+      <rect x="310" y="200" width="195" height="6" fill="#FFD700" rx="2"/>
+      <rect x="310" y="240" width="195" height="6" fill="#FFD700" rx="2"/>
+      <!-- Gold tassels -->
+      <circle cx="328" cy="252" r="9" fill="#FFD700" stroke="#AA8000" stroke-width="2"/>
+      <circle cx="496" cy="252" r="9" fill="#FFD700" stroke="#AA8000" stroke-width="2"/>
+      <circle cx="412" cy="258" r="9" fill="#FFD700" stroke="#AA8000" stroke-width="2"/>
+      <!-- Camel legs -->
+      <rect x="328" y="256" width="14" height="30" fill="#9A5218" rx="4"/>
+      <rect x="358" y="256" width="14" height="30" fill="#9A5218" rx="4"/>
+      <rect x="446" y="256" width="14" height="30" fill="#9A5218" rx="4"/>
+      <rect x="476" y="256" width="14" height="30" fill="#9A5218" rx="4"/>
+      <!-- DHOLA -->
+      <circle cx="375" cy="168" r="24" fill="#F5C28A"/>
+      <rect x="358" y="192" width="34" height="48" fill="#1A5A9C" rx="4"/>
+      <path d="M353,158 Q375,135 397,158" fill="none" stroke="#D4441A" stroke-width="13"/>
+      <rect x="371" y="135" width="10" height="27" fill="#D4441A"/>
+      <!-- arm around Maru -->
+      <path d="M396,200 Q422,192 436,190" fill="none" stroke="#F5C28A" stroke-width="11" stroke-linecap="round"/>
+      <!-- MARU -->
+      <circle cx="450" cy="172" r="22" fill="#F5C28A"/>
+      <rect x="435" y="194" width="30" height="46" fill="#9B2D8A" rx="4"/>
+      <circle cx="450" cy="167" r="3" fill="#C00"/>
+      <!-- dupatta flowing -->
+      <path d="M435,182 Q478,165 520,150 Q554,140 586,142" fill="none" stroke="#FF88CC" stroke-width="8" stroke-linecap="round" opacity="0.95"/>
+      <!-- Big hearts -->
+      <text x="260" y="140" font-size="38" fill="#FF4466" opacity="0.9">&#x2665;</text>
+      <text x="540" y="148" font-size="32" fill="#FF4466" opacity="0.85">&#x2665;</text>
+      <text x="408" y="118" font-size="24" fill="#FF4466" opacity="0.8">&#x2665;</text>
+      <!-- Birds in sky -->
+      <path d="M80,55 Q95,47 110,55" fill="none" stroke="#7B2D00" stroke-width="2.5"/>
+      <path d="M680,50 Q695,42 710,50" fill="none" stroke="#7B2D00" stroke-width="2.5"/>
+      <path d="M180,35 Q195,27 210,35" fill="none" stroke="#7B2D00" stroke-width="2"/>
+      <path d="M590,38 Q605,30 620,38" fill="none" stroke="#7B2D00" stroke-width="2"/>
+      <rect x="0" y="0" width="820" height="10" fill="#7B2D00"/>
+      <rect x="0" y="330" width="820" height="10" fill="#7B2D00"/>
+      <rect x="0" y="0" width="10" height="340" fill="#7B2D00"/>
+      <rect x="810" y="0" width="10" height="340" fill="#7B2D00"/>
+    </svg>
+    <div class="panel-caption">
+      Dhola reached Pugal. Maru ran through the palace gates — and they finally stood face to face after a lifetime of waiting. Together they mounted the royal camel, Maru's dupatta streaming behind them like a banner of victory. The desert itself seemed to glow in celebration. <strong style="color:#FFD700">Their long separation was over.</strong>
+    </div>
+  </div>
+
+  <!-- PANEL 9 -->
+  <div class="panel" id="panel-9">
+    <div class="chapter-label">Chapter IX &mdash; The Serpent in the Night</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="nightsnk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A0E28"/><stop offset="100%" stop-color="#1A1850"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#nightsnk)"/>
+      <!-- Stars -->
+      <circle cx="50" cy="22" r="2" fill="#EEF8FF"/>
+      <circle cx="120" cy="14" r="1.5" fill="#EEF8FF"/>
+      <circle cx="210" cy="28" r="2" fill="#EEF8FF"/>
+      <circle cx="350" cy="10" r="1.5" fill="#EEF8FF"/>
+      <circle cx="520" cy="20" r="2" fill="#EEF8FF"/>
+      <circle cx="660" cy="15" r="1.5" fill="#EEF8FF"/>
+      <circle cx="770" cy="28" r="2" fill="#EEF8FF"/>
+      <!-- Moon crescent -->
+      <path d="M700,20 Q740,48 712,82 Q770,60 760,22 Z" fill="#FFFAE0"/>
+      <!-- Sleeping camel -->
+      <ellipse cx="380" cy="218" rx="110" ry="36" fill="#7A5030"/>
+      <path d="M390,196 Q416,168 430,152" fill="none" stroke="#7A5030" stroke-width="22" stroke-linecap="round"/>
+      <ellipse cx="438" cy="145" rx="20" ry="15" fill="#7A5030"/>
+      <!-- Sleeping Dhola on camel -->
+      <ellipse cx="348" cy="190" rx="30" ry="14" fill="#F5C28A"/>
+      <rect x="320" y="180" width="56" height="18" fill="#1A5A9C" rx="5"/>
+      <!-- sleeping zzz -->
+      <text x="330" y="168" font-size="14" fill="#88AAFF" opacity="0.6">z</text>
+      <text x="318" y="155" font-size="12" fill="#88AAFF" opacity="0.5">z</text>
+      <!-- Sleeping Maru -->
+      <ellipse cx="418" cy="192" rx="26" ry="13" fill="#F5C28A"/>
+      <rect x="394" y="183" width="48" height="17" fill="#9B2D8A" rx="5"/>
+      <text x="420" y="170" font-size="14" fill="#88AAFF" opacity="0.6">z</text>
+      <!-- SERPENT approaching -->
+      <path d="M60,290 Q140,240 220,265 Q300,295 380,250 Q440,218 500,240 Q560,262 590,250 Q620,238 630,255" fill="none" stroke="#2A7A1A" stroke-width="16" stroke-linecap="round"/>
+      <!-- snake head -->
+      <ellipse cx="638" cy="252" rx="18" ry="12" fill="#1A6010"/>
+      <!-- forked tongue -->
+      <path d="M654,252 L668,246 M654,252 L668,258" fill="none" stroke="#CC2200" stroke-width="2.5"/>
+      <!-- eyes -->
+      <circle cx="646" cy="248" r="3.5" fill="#FF0"/>
+      <circle cx="647" cy="248" r="2" fill="#000"/>
+      <!-- danger glow -->
+      <circle cx="638" cy="252" r="40" fill="#CC220018"/>
+      <circle cx="638" cy="252" r="25" fill="#CC220010"/>
+      <!-- text warning -->
+      <text x="638" y="210" text-anchor="middle" font-size="11" fill="#FF6600" font-family="Georgia" opacity="0.85">DANGER!</text>
+      <rect x="0" y="0" width="820" height="9" fill="#080A1E"/>
+      <rect x="0" y="331" width="820" height="9" fill="#080A1E"/>
+    </svg>
+    <div class="panel-caption">
+      That night, the lovers rested under the desert stars, the camel kneeling beside them. But while they slept, a deadly cobra slithered silently through the sand — coiling ever closer toward <strong style="color:#FFD700">Dhola</strong>. The desert had one more trial waiting. Would fate protect what it had brought together?
+    </div>
+  </div>
+
+  <!-- PANEL 10 -->
+  <div class="panel" id="panel-10">
+    <div class="chapter-label">Chapter X &mdash; The Divine Peacock Saves Them</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="nightpk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A0E28"/><stop offset="100%" stop-color="#1A1850"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#nightpk)"/>
+      <circle cx="120" cy="40" r="28" fill="#FFFAE0" opacity="0.9"/>
+      <circle cx="136" cy="33" r="23" fill="url(#nightpk)"/>
+      <!-- Peacock — magnificent -->
+      <!-- Tail fan feathers -->
+      <path d="M260,200 Q180,130 120,100 Q160,148 200,185" fill="#1A7A4A" opacity="0.75"/>
+      <path d="M255,212 Q165,168 100,175 Q148,188 210,205" fill="#1A6A3A" opacity="0.75"/>
+      <path d="M260,225 Q190,230 140,260 Q184,248 238,238" fill="#156030" opacity="0.75"/>
+      <path d="M265,195 Q200,110 155,68 Q188,105 218,155" fill="#1A8A5A" opacity="0.7"/>
+      <path d="M270,188 Q220,95 195,55 Q220,92 242,148" fill="#158A4A" opacity="0.65"/>
+      <!-- Feather eye spots -->
+      <circle cx="130" cy="108" r="11" fill="#FFD700" opacity="0.9"/>
+      <circle cx="130" cy="108" r="7" fill="#1A4A8A" opacity="0.9"/>
+      <circle cx="108" cy="178" r="10" fill="#FFD700" opacity="0.9"/>
+      <circle cx="108" cy="178" r="6" fill="#1A4A8A" opacity="0.9"/>
+      <circle cx="146" cy="255" r="10" fill="#FFD700" opacity="0.9"/>
+      <circle cx="146" cy="255" r="6" fill="#1A4A8A" opacity="0.9"/>
+      <circle cx="165" cy="78" r="9" fill="#FFD700" opacity="0.85"/>
+      <circle cx="165" cy="78" r="5.5" fill="#1A4A8A"/>
+      <circle cx="203" cy="58" r="8" fill="#FFD700" opacity="0.8"/>
+      <circle cx="203" cy="58" r="5" fill="#1A4A8A"/>
+      <!-- Peacock body -->
+      <ellipse cx="310" cy="210" rx="50" ry="34" fill="#1A8A4A"/>
+      <!-- Peacock neck -->
+      <path d="M322,186 Q338,158 346,140" fill="none" stroke="#1A5A9A" stroke-width="16" stroke-linecap="round"/>
+      <!-- Head -->
+      <circle cx="350" cy="132" r="16" fill="#1A5A9A"/>
+      <!-- crest -->
+      <line x1="350" y1="116" x2="343" y2="100" stroke="#1A5A9A" stroke-width="2.5"/>
+      <circle cx="343" cy="99" r="4" fill="#FFD700"/>
+      <line x1="350" y1="116" x2="350" y2="99" stroke="#1A5A9A" stroke-width="2.5"/>
+      <circle cx="350" cy="98" r="4" fill="#FFD700"/>
+      <line x1="350" y1="116" x2="357" y2="100" stroke="#1A5A9A" stroke-width="2.5"/>
+      <circle cx="357" cy="99" r="4" fill="#FFD700"/>
+      <!-- Beak open — crying -->
+      <path d="M364,133 L378,128 L364,138 Z" fill="#FFD700"/>
+      <!-- sound waves from peacock -->
+      <path d="M380,130 Q395,120 408,130" fill="none" stroke="#FFD700" stroke-width="2" opacity="0.6"/>
+      <path d="M385,124 Q403,112 419,124" fill="none" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
+      <!-- serpent fleeing right side -->
+      <path d="M580,280 Q640,240 700,260 Q740,272 780,255" fill="none" stroke="#2A6010" stroke-width="10" stroke-linecap="round" opacity="0.65"/>
+      <ellipse cx="786" cy="253" rx="12" ry="8" fill="#1A5008" opacity="0.65"/>
+      <!-- exclamation marks around serpent -->
+      <text x="730" y="240" font-size="14" fill="#FF6600" opacity="0.7">!</text>
+      <text x="748" y="228" font-size="12" fill="#FF6600" opacity="0.6">!</text>
+      <!-- sleeping couple safe -->
+      <ellipse cx="480" cy="240" rx="90" ry="28" fill="#7A5030" opacity="0.7"/>
+      <ellipse cx="448" cy="218" rx="26" ry="12" fill="#F5C28A" opacity="0.9"/>
+      <ellipse cx="510" cy="220" rx="23" ry="11" fill="#F5C28A" opacity="0.9"/>
+      <!-- divine glow around couple -->
+      <ellipse cx="480" cy="225" rx="70" ry="36" fill="#FFD70014"/>
+      <rect x="0" y="0" width="820" height="9" fill="#080A1E"/>
+      <rect x="0" y="331" width="820" height="9" fill="#080A1E"/>
+    </svg>
+    <div class="panel-caption">
+      A divine peacock appeared from nowhere — its magnificent tail spread wide, its cry piercing the desert silence. It danced and shrieked, driving the cobra away into the dark sand. The couple slept on, unaware of how close death had come. <strong style="color:#FFD700">Fate itself was guarding them.</strong>
+    </div>
+  </div>
+
+  <!-- PANEL 11 — Final -->
+  <div class="panel" id="panel-11">
+    <div class="chapter-label">Chapter XI &mdash; Eternal Love</div>
+    <svg viewBox="0 0 820 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="glory11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFE566"/><stop offset="50%" stop-color="#FF9933"/><stop offset="100%" stop-color="#CC4400"/></linearGradient>
+        <linearGradient id="snd11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4884A"/><stop offset="100%" stop-color="#8B3A00"/></linearGradient>
+      </defs>
+      <rect width="820" height="340" fill="url(#glory11)"/>
+      <path d="M0,232 Q410,186 820,232 L820,340 L0,340 Z" fill="url(#snd11)"/>
+      <!-- Decorative arch top -->
+      <path d="M80,340 Q100,240 140,180 Q180,130 220,170 Q250,200 260,250 L260,340 Z" fill="#8B3A0F" opacity="0.3"/>
+      <path d="M740,340 Q720,240 680,180 Q640,130 600,170 Q570,200 560,250 L560,340 Z" fill="#8B3A0F" opacity="0.3"/>
+      <!-- Lotus flowers left and right -->
+      <circle cx="160" cy="240" r="22" fill="#FF88BB" opacity="0.9"/>
+      <circle cx="134" cy="226" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="148" cy="214" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="172" cy="214" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="186" cy="226" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="160" cy="240" r="9" fill="#FFE066"/>
+      <circle cx="660" cy="240" r="22" fill="#FF88BB" opacity="0.9"/>
+      <circle cx="634" cy="226" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="648" cy="214" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="672" cy="214" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="686" cy="226" r="14" fill="#FF88BB" opacity="0.8"/>
+      <circle cx="660" cy="240" r="9" fill="#FFE066"/>
+      <!-- Grand camel final -->
+      <ellipse cx="410" cy="220" rx="130" ry="46" fill="#C8864A"/>
+      <path d="M418,196 Q454,152 472,130" fill="none" stroke="#C8864A" stroke-width="30" stroke-linecap="round"/>
+      <ellipse cx="482" cy="122" rx="28" ry="22" fill="#C8864A"/>
+      <circle cx="496" cy="116" r="5" fill="#2A0E00"/>
+      <path d="M320,200 Q366,155 412,200" fill="#B07030"/>
+      <path d="M400,200 Q446,155 492,200" fill="#A86028"/>
+      <!-- grand cloth -->
+      <rect x="306" y="204" width="210" height="50" fill="#CC2200" rx="7" opacity="0.85"/>
+      <rect x="306" y="204" width="210" height="7" fill="#FFD700" rx="2"/>
+      <rect x="306" y="247" width="210" height="7" fill="#FFD700" rx="2"/>
+      <!-- Bells -->
+      <circle cx="325" cy="260" r="10" fill="#FFD700" stroke="#AA8000" stroke-width="2"/>
+      <circle cx="496" cy="260" r="10" fill="#FFD700" stroke="#AA8000" stroke-width="2"/>
+      <circle cx="410" cy="266" r="10" fill="#FFD700" stroke="#AA8000" stroke-width="2"/>
+      <!-- Legs -->
+      <rect x="325" y="268" width="14" height="30" fill="#9A5218" rx="4"/>
+      <rect x="356" y="268" width="14" height="30" fill="#9A5218" rx="4"/>
+      <rect x="454" y="268" width="14" height="30" fill="#9A5218" rx="4"/>
+      <rect x="484" y="268" width="14" height="30" fill="#9A5218" rx="4"/>
+      <!-- DHOLA final -->
+      <circle cx="377" cy="173" r="26" fill="#F5C28A"/>
+      <rect x="360" y="199" width="34" height="52" fill="#1A5A9C" rx="4"/>
+      <path d="M354,163 Q377,140 400,163" fill="none" stroke="#D4441A" stroke-width="14"/>
+      <rect x="373" y="140" width="10" height="27" fill="#D4441A"/>
+      <path d="M400,207 Q428,198 443,196" fill="none" stroke="#F5C28A" stroke-width="12" stroke-linecap="round"/>
+      <!-- MARU final -->
+      <circle cx="452" cy="177" r="24" fill="#F5C28A"/>
+      <rect x="436" y="201" width="32" height="50" fill="#9B2D8A" rx="4"/>
+      <circle cx="452" cy="172" r="3.5" fill="#C00"/>
+      <!-- Dupatta -->
+      <path d="M436,188 Q486,170 532,154 Q568,144 604,146" fill="none" stroke="#FF88CC" stroke-width="9" stroke-linecap="round" opacity="0.95"/>
+      <!-- BIG hearts -->
+      <text x="275" y="145" font-size="44" fill="#FF4466" opacity="0.92">&#x2665;</text>
+      <text x="550" y="152" font-size="38" fill="#FF4466" opacity="0.88">&#x2665;</text>
+      <text x="408" y="120" font-size="28" fill="#FF4466" opacity="0.82">&#x2665;</text>
+      <!-- Birds -->
+      <path d="M80,55 Q96,47 112,55" fill="none" stroke="#7B2D00" stroke-width="3"/>
+      <path d="M690,50 Q706,42 722,50" fill="none" stroke="#7B2D00" stroke-width="3"/>
+      <path d="M180,32 Q196,24 212,32" fill="none" stroke="#7B2D00" stroke-width="2.5"/>
+      <path d="M590,36 Q606,28 622,36" fill="none" stroke="#7B2D00" stroke-width="2.5"/>
+      <!-- Ornate full border -->
+      <rect x="0" y="0" width="820" height="12" fill="#7B2D00"/>
+      <rect x="0" y="328" width="820" height="12" fill="#7B2D00"/>
+      <rect x="0" y="0" width="12" height="340" fill="#7B2D00"/>
+      <rect x="808" y="0" width="12" height="340" fill="#7B2D00"/>
+      <!-- corner diamonds -->
+      <polygon points="12,12 28,6 34,22 18,28" fill="#FFD700"/>
+      <polygon points="808,12 792,6 786,22 802,28" fill="#FFD700"/>
+      <polygon points="12,328 28,334 34,318 18,312" fill="#FFD700"/>
+      <polygon points="808,328 792,334 786,318 802,312" fill="#FFD700"/>
+    </svg>
+    <div class="panel-caption">
+      Dhola and Maru rode home together in glory — their love tested by time, distance, forgetting, and a coiled serpent, but never truly broken. The bards have sung their story ever since across the Thar Desert. <em style="color:#FFD700">And what of Malwani? The story does not give her justice — but she deserved better than to be a forgotten heartbreak in someone else's love story.</em>
+    </div>
+  </div>
+
+</div><!-- end comic-container -->
+
+<!-- Progress bar -->
+<div class="progress-bar" style="max-width:820px;width:100%">
+  <div class="progress-fill" id="progressFill" style="width:9.09%"></div>
+</div>
+
+<div class="panel-counter" id="panelCounter">Panel 1 of 11</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="btn" id="btnFirst" onclick="goTo(0)">&#x21E4; First</button>
+  <button class="btn" id="btnPrev" onclick="prev()" disabled>&#x276E; Prev</button>
+  <button class="btn play-btn" id="btnPlay" onclick="togglePlay()">&#x25B6; Play</button>
+  <button class="btn" id="btnNext" onclick="next()">Next &#x276F;</button>
+  <button class="btn" id="btnLast" onclick="goTo(10)">Last &#x21E5;</button>
+</div>
+
+<!-- Dot navigation -->
+<div class="dot-nav" id="dotNav"></div>
+
+<div style="text-align:center;margin-top:18px;padding-bottom:20px">
+  <p style="color:#C8864A;font-family:Georgia,serif;font-style:italic;font-size:0.9rem">&#x2605; Iti Shri Dhola-Maru Katha Sampurna &#x2605;</p>
+  <p style="color:#7B4A2A;font-size:0.78rem;margin-top:4px">Dhola-Maru , popularly known as Romeo and Juliet of Rajasthan</p>
+</div>
+
+<script>
+  const TOTAL = 11;
+  let current = 0;
+  let playing = false;
+  let timer = null;
+  const INTERVAL = 5000;
+
+  const dotNav = document.getElementById('dotNav');
+  for(let i=0;i<TOTAL;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' active':'');
+    d.title = 'Panel ' + (i+1);
+    d.onclick = ()=>goTo(i);
+    dotNav.appendChild(d);
+  }
+
+  function showPanel(idx){
+    document.querySelectorAll('.panel').forEach((p,i)=>{
+      p.classList.toggle('active', i===idx);
+    });
+    document.querySelectorAll('.dot').forEach((d,i)=>{
+      d.classList.toggle('active', i===idx);
+    });
+    const pct = ((idx+1)/TOTAL*100).toFixed(2);
+    document.getElementById('progressFill').style.width = pct+'%';
+    document.getElementById('panelCounter').textContent = 'Panel '+(idx+1)+' of '+TOTAL;
+    document.getElementById('btnPrev').disabled = idx===0;
+    document.getElementById('btnFirst').disabled = idx===0;
+    document.getElementById('btnNext').disabled = idx===TOTAL-1;
+    document.getElementById('btnLast').disabled = idx===TOTAL-1;
+    if(idx===TOTAL-1 && playing) stopPlay();
+    current = idx;
+  }
+
+  function goTo(idx){ showPanel(Math.max(0,Math.min(TOTAL-1,idx))); }
+  function prev(){ goTo(current-1); }
+  function next(){ goTo(current+1); }
+
+  function togglePlay(){
+    playing ? stopPlay() : startPlay();
+  }
+  function startPlay(){
+    playing = true;
+    document.getElementById('btnPlay').textContent = '\u23F8 Pause';
+    document.getElementById('btnPlay').classList.add('playing');
+    timer = setInterval(()=>{
+      if(current < TOTAL-1){ goTo(current+1); }
+      else { stopPlay(); }
+    }, INTERVAL);
+  }
+  function stopPlay(){
+    playing = false;
+    clearInterval(timer);
+    document.getElementById('btnPlay').textContent = '\u25B6 Play';
+    document.getElementById('btnPlay').classList.remove('playing');
+  }
+
+  document.addEventListener('keydown',(e)=>{
+    if(e.key==='ArrowRight'||e.key===' ') next();
+    if(e.key==='ArrowLeft') prev();
+    if(e.key==='p'||e.key==='P') togglePlay();
+  });
+</script>
+</body>
+</html>
